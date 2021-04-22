@@ -15,10 +15,10 @@
          AVAudioSessionRouteDescription *routeDesc = dict[AVAudioSessionRouteChangePreviousRouteKey];
          AVAudioSessionPortDescription *prevPort = [routeDesc.outputs objectAtIndex:0];
          if ([prevPort.portType isEqualToString:AVAudioSessionPortHeadphones]) {
-              //Head phone removed
+              //Head phone added
              [self.commandDelegate evalJs:@"cordova.require('cordova-plugin-headsetdetection.HeadsetDetection').remoteHeadsetAdded()"];
 
-            }
+          }
     } else if ([reason unsignedIntegerValue] == AVAudioSessionRouteChangeReasonOldDeviceUnavailable) {
         [self.commandDelegate evalJs:@"cordova.require('cordova-plugin-headsetdetection.HeadsetDetection').remoteHeadsetRemoved()"];
     }
