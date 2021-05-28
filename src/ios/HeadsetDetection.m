@@ -10,15 +10,7 @@
     NSNumber *reason = [notification.userInfo objectForKey:AVAudioSessionRouteChangeReasonKey];
     
     if ([reason unsignedIntegerValue] == AVAudioSessionRouteChangeReasonNewDeviceAvailable) {
-        
-        NSDictionary *dict = notification.userInfo;
-         AVAudioSessionRouteDescription *routeDesc = dict[AVAudioSessionRouteChangePreviousRouteKey];
-         AVAudioSessionPortDescription *prevPort = [routeDesc.outputs objectAtIndex:0];
-         if ([prevPort.portType isEqualToString:AVAudioSessionPortHeadphones]) {
-              //Head phone added
-             [self.commandDelegate evalJs:@"cordova.require('cordova-plugin-headsetdetection.HeadsetDetection').remoteHeadsetAdded()"];
-
-          }
+        [self.commandDelegate evalJs:@"cordova.require('cordova-plugin-headsetdetection.HeadsetDetection').remoteHeadsetAdded()"];
     } else if ([reason unsignedIntegerValue] == AVAudioSessionRouteChangeReasonOldDeviceUnavailable) {
         [self.commandDelegate evalJs:@"cordova.require('cordova-plugin-headsetdetection.HeadsetDetection').remoteHeadsetRemoved()"];
     }
