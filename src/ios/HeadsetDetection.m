@@ -7,8 +7,9 @@
 }
 
 - (void)routeChanged:(NSNotification *)notification {
+    NSLog(@"Route Changed notification");
     NSNumber *reason = [notification.userInfo objectForKey:AVAudioSessionRouteChangeReasonKey];
-    
+    NSLog(@"Notification Reason %d",reason);
     if ([reason unsignedIntegerValue] == AVAudioSessionRouteChangeReasonNewDeviceAvailable) {
         
        if([self isHeadsetEnabled])
@@ -32,7 +33,9 @@
 
 - (BOOL) isHeadsetEnabled {
   AVAudioSessionRouteDescription* route = [[AVAudioSession sharedInstance] currentRoute];
+  NSLog(@"%@",route);
   for (AVAudioSessionPortDescription* desc in [route outputs]) {
+      NSLog(@"Route Outputs %@", desc);
     if ([[desc portType] isEqualToString:AVAudioSessionPortHeadphones]) {
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothHFP] ||
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothA2DP] ||
