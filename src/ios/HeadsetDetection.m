@@ -36,7 +36,7 @@
   NSLog(@"%@",route);
   for (AVAudioSessionPortDescription* desc in [route outputs]) {
       NSLog(@"Route Outputs %@", desc);
-    if ([[desc portType] isEqualToString:AVAudioSessionPortHeadphones]) {
+    if ([[desc portType] isEqualToString:AVAudioSessionPortUSBAudio]) {
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothHFP] ||
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothA2DP] ||
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothLE]
@@ -44,6 +44,17 @@
     }
   }
   return NO;
+}
+
+- (NSString *) headSetName {
+  AVAudioSessionRouteDescription* route = [[AVAudioSession sharedInstance] currentRoute];
+  for (AVAudioSessionPortDescription* desc in [route outputs]) {
+    if ([[desc portType] isEqualToString: AVAudioSessionPortUSBAudio]) {
+        NSString *deviceName = [desc portName];
+      return deviceName;
+    }
+  }
+  return @"";
 }
 
 @end
