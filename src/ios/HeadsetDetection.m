@@ -7,16 +7,11 @@
 }
 
 - (void)routeChanged:(NSNotification *)notification {
-    NSLog(@"Route Changed notification");
     NSNumber *reason = [notification.userInfo objectForKey:AVAudioSessionRouteChangeReasonKey];
-    NSLog(@"Notification Reason %d",reason);
     if ([reason unsignedIntegerValue] == AVAudioSessionRouteChangeReasonNewDeviceAvailable) {
-        
-       if([self isHeadsetEnabled])
-        {
-             [self.commandDelegate evalJs:@"cordova.require('cordova-plugin-headsetdetection.HeadsetDetection').remoteHeadsetAdded()"];
-
-        }
+      if([self isHeadsetEnabled]){
+        [self.commandDelegate evalJs:@"cordova.require('cordova-plugin-headsetdetection.HeadsetDetection').remoteHeadsetAdded()"];
+      }
     } else if ([reason unsignedIntegerValue] == AVAudioSessionRouteChangeReasonOldDeviceUnavailable) {
         [self.commandDelegate evalJs:@"cordova.require('cordova-plugin-headsetdetection.HeadsetDetection').remoteHeadsetRemoved()"];
     }
@@ -33,9 +28,8 @@
 
 - (BOOL) isHeadsetEnabled {
   AVAudioSessionRouteDescription* route = [[AVAudioSession sharedInstance] currentRoute];
-  NSLog(@"%@",route);
   for (AVAudioSessionPortDescription* desc in [route outputs]) {
-      NSLog(@"Route Outputs %@", desc);
+      //Refer https://developer.apple.com/documentation/avfaudio/avaudiosessionport
     if ([[desc portType] isEqualToString:AVAudioSessionPortUSBAudio]) {
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothHFP] ||
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothA2DP] ||
@@ -44,17 +38,6 @@
     }
   }
   return NO;
-}
-
-- (NSString *) headSetName {
-  AVAudioSessionRouteDescription* route = [[AVAudioSession sharedInstance] currentRoute];
-  for (AVAudioSessionPortDescription* desc in [route outputs]) {
-    if ([[desc portType] isEqualToString: AVAudioSessionPortUSBAudio]) {
-        NSString *deviceName = [desc portName];
-      return deviceName;
-    }
-  }
-  return @"";
 }
 
 @end
