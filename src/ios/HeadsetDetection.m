@@ -30,8 +30,8 @@
   AVAudioSessionRouteDescription* route = [[AVAudioSession sharedInstance] currentRoute];
   for (AVAudioSessionPortDescription* desc in [route outputs]) {
       //Refer https://developer.apple.com/documentation/avfaudio/avaudiosessionport
-    if ([[desc portType] isEqualToString:AVAudioSessionPortHeadphones] ||
-        [[desc portType] isEqualToString:AVAudioSessionPortUSBAudio]) {
+    if ([[desc portType] isEqualToString:AVAudioSessionPortHeadphones]) {
+      // [[desc portType] isEqualToString:AVAudioSessionPortUSBAudio] ||
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothHFP] ||
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothA2DP] ||
       // [[desc portType] isEqualToString:AVAudioSessionPortBluetoothLE]
